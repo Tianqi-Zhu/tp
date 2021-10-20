@@ -3,7 +3,7 @@ package manageme.testutil;
 import static manageme.logic.parser.CliSyntax.PREFIX_LINK;
 import static manageme.logic.parser.CliSyntax.PREFIX_NAME;
 
-import manageme.logic.commands.AddCommand;
+import manageme.logic.commands.module.AddModuleCommand;
 import manageme.logic.commands.module.EditModuleCommand;
 import manageme.model.module.Module;
 
@@ -12,8 +12,8 @@ public class ModuleUtil {
     /**
      * Returns an add command string for adding the {@code module}.
      */
-    public static String getAddCommand(Module module) {
-        return AddCommand.COMMAND_WORD + " " + getModuleDetails(module);
+    public static String getAddModuleCommand(Module module) {
+        return AddModuleCommand.COMMAND_WORD + " " + getModuleDetails(module);
     }
 
     /**

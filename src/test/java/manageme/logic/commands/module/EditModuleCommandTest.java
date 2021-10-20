@@ -10,7 +10,7 @@ import static manageme.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static manageme.logic.commands.CommandTestUtil.showModuleAtIndex;
 import static manageme.testutil.TypicalIndexes.INDEX_FIRST;
 import static manageme.testutil.TypicalIndexes.INDEX_SECOND;
-import static manageme.testutil.TypicalModules.getTypicalAddressBook;
+import static manageme.testutil.TypicalModules.getTypicalManageMe;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,7 +31,7 @@ import manageme.testutil.ModuleBuilder;
  * Contains integration tests (interaction with the Model) and unit tests for EditModuleCommand.
  */
 public class EditModuleCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalManageMe(), new UserPrefs());
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
@@ -111,7 +111,7 @@ public class EditModuleCommandTest {
     public void execute_duplicateModuleFilteredList_failure() {
         showModuleAtIndex(model, INDEX_FIRST);
 
-        // edit module  in filtered list into a duplicate in address book
+        // edit module  in filtered list into a duplicate
         Module moduleInList = model.getManageMe().getModuleList().get(INDEX_SECOND.getZeroBased());
         EditModuleCommand editModuleCommand = new EditModuleCommand(INDEX_FIRST,
                 new EditModuleDescriptorBuilder(moduleInList).build());
@@ -131,13 +131,13 @@ public class EditModuleCommandTest {
 
     /**
      * Edit filtered list where index is larger than size of filtered list,
-     * but smaller than size of address book
+     * but smaller than size of ManageMe
      */
     @Test
     public void execute_invalidModuleIndexFilteredList_failure() {
         showModuleAtIndex(model, INDEX_FIRST);
         Index outOfBoundIndex = INDEX_SECOND;
-        // ensures that outOfBoundIndex is still in bounds of address book list
+        // ensures that outOfBoundIndex is still in bounds of ManageMe list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getManageMe().getModuleList().size());
 
         EditModuleCommand editModuleCommand = new EditModuleCommand(outOfBoundIndex,

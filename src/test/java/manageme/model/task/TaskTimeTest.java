@@ -12,6 +12,35 @@ public class TaskTimeTest {
     public void constructor_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new TaskTime(null));
     }
+
+    @Test
+    public void constructor_invalidTaskTime_throwsIllegalArgumentException() {
+        String invalidTime = "";
+        assertThrows(IllegalArgumentException.class, () -> new TaskTime(invalidTime));
+    }
+
+    @Test
+    public void isValidTime() {
+        // null time
+        assertThrows(NullPointerException.class, () -> TaskTime.isValidTaskTime(null));
+
+        // invalid time
+        assertFalse(TaskTime.isValidTaskTime("")); // empty string
+        assertFalse(TaskTime.isValidTaskTime(" ")); // spaces only
+
+        // valid time
+        assertTrue(TaskTime.isValidTaskTime("abcd")); // alphabets only
+        assertTrue(TaskTime.isValidTaskTime("12345")); // numbers only
+        assertTrue(TaskTime.isValidTaskTime("abcd12345")); // alphanumeric characters
+        assertTrue(TaskTime.isValidTaskTime("LM456NOP")); // with capital letters
+        assertTrue(TaskTime.isValidTaskTime("11/05/2021T11:49:57")); // long time
+    }
+
+    @Test
+    public void toDisplayString() {
+        // empty TaskTime, returns ""
+        assertTrue(TaskTime.empty().toDisplayString().equals(""));
+    }
     @Test
     public void equals() {
         // same date/time, returns true

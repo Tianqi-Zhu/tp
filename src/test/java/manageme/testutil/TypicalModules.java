@@ -16,9 +16,9 @@ public class TypicalModules {
     private TypicalModules() {} // prevents instantiation
 
     /**
-     * Returns an {@code AddressBook} with all the typical persons.
+     * Returns an {@code ManageMe} with all the typical modules.
      */
-    public static ManageMe getTypicalAddressBook() {
+    public static ManageMe getTypicalManageMe() {
         ManageMe ab = new ManageMe();
         for (Module module : getTypicalModules()) {
             ab.addModule(module);

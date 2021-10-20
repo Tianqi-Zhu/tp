@@ -28,8 +28,6 @@ public class TaskNameTest {
         // invalid name
         assertFalse(TaskName.isValidName("")); // empty string
         assertFalse(TaskName.isValidName(" ")); // spaces only
-        assertFalse(TaskName.isValidName("^")); // only non-alphanumeric characters
-        assertFalse(TaskName.isValidName("hello*")); // contains non-alphanumeric characters
 
         // valid name
         assertTrue(TaskName.isValidName("do work")); // alphabets only

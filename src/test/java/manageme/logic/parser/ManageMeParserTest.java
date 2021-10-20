@@ -26,10 +26,21 @@ import manageme.logic.commands.ListCommand;
 import manageme.logic.commands.calendar.NextMonthCommand;
 import manageme.logic.commands.calendar.PreviousMonthCommand;
 import manageme.logic.commands.calendar.ReadDayCommand;
+import manageme.logic.commands.module.AddModuleCommand;
+import manageme.logic.commands.module.DeleteModuleCommand;
+import manageme.logic.commands.module.EditModuleCommand;
+import manageme.logic.commands.module.EditModuleCommand.EditModuleDescriptor;
+import manageme.logic.commands.module.FindModuleCommand;
+import manageme.logic.commands.module.ListModuleCommand;
 import manageme.logic.parser.exceptions.ParseException;
+import manageme.model.module.ModNameContainsKeywordsPredicate;
+import manageme.model.module.Module;
 import manageme.model.person.NameContainsKeywordsPredicate;
 import manageme.model.person.Person;
+import manageme.testutil.EditModuleDescriptorBuilder;
 import manageme.testutil.EditPersonDescriptorBuilder;
+import manageme.testutil.ModuleBuilder;
+import manageme.testutil.ModuleUtil;
 import manageme.testutil.PersonBuilder;
 import manageme.testutil.PersonUtil;
 
@@ -90,6 +101,46 @@ public class ManageMeParserTest {
     public void parseCommand_list() throws Exception {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
+    }
+
+
+    @Test
+    public void parseCommand_addModule() throws Exception {
+        Module module = new ModuleBuilder().build();
+        AddModuleCommand command = (AddModuleCommand) parser.parseCommand(ModuleUtil.getAddModuleCommand(module));
+        assertEquals(new AddModuleCommand(module), command);
+    }
+
+    @Test
+    public void parseCommand_deleteModule() throws Exception {
+        DeleteModuleCommand command = (DeleteModuleCommand) parser.parseCommand(
+                DeleteModuleCommand.COMMAND_WORD + " " + INDEX_FIRST.getOneBased());
+        assertEquals(new DeleteModuleCommand(INDEX_FIRST), command);
+    }
+
+    @Test
+    public void parseCommand_editModule() throws Exception {
+        Module module = new ModuleBuilder().build();
+        EditModuleDescriptor descriptor = new EditModuleDescriptorBuilder(module).build();
+        EditModuleCommand command = (EditModuleCommand) parser.parseCommand(EditModuleCommand.COMMAND_WORD + " "
+                + INDEX_FIRST.getOneBased() + " " + ModuleUtil.getEditModuleDescriptorDetails(descriptor));
+        assertEquals(new EditModuleCommand(INDEX_FIRST, descriptor), command);
+    }
+
+
+    @Test
+    public void parseCommand_findModule() throws Exception {
+        List<String> keywords = Arrays.asList("foo", "bar", "baz");
+        FindModuleCommand command = (FindModuleCommand) parser.parseCommand(
+                FindModuleCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
+        assertEquals(new FindModuleCommand(new ModNameContainsKeywordsPredicate(keywords)), command);
+    }
+
+
+    @Test
+    public void parseCommand_listModule() throws Exception {
+        assertTrue(parser.parseCommand(ListModuleCommand.COMMAND_WORD) instanceof ListModuleCommand);
+        assertTrue(parser.parseCommand(ListModuleCommand.COMMAND_WORD + " 3") instanceof ListModuleCommand);
     }
 
     @Test

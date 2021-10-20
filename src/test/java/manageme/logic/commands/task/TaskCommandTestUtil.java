@@ -50,7 +50,7 @@ public class TaskCommandTestUtil {
     public static final String END_DESC_B = " " + PREFIX_END + VALID_END_B;
 
 
-    public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "Do Work&"; // '&' not allowed in names
+    public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + " "; // whitespace not allowed in names
     public static final String INVALID_DESCRIPTION_DESC = " " + PREFIX_DESCRIPTION; //empty string not
     // allowed for description
     public static final String INVALID_MODULE_DESC = " " + PREFIX_MODULE; // empty string not allowed for

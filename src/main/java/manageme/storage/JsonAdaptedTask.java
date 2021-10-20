@@ -81,13 +81,15 @@ public class JsonAdaptedTask {
         if (taskDescription == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Task Description"));
         }
+        if (!TaskDescription.isValidDescription(taskDescription)) {
+            throw new IllegalValueException(TaskDescription.MESSAGE_CONSTRAINTS);
+        }
         final TaskDescription modelDescription = new TaskDescription(taskDescription);
+        final TaskModule modelModule = !module.equals("") ? new TaskModule(module) : null;
 
-        final TaskModule modelModule = module != "" ? new TaskModule(module) : null;
+        final TaskTime modelStart = !start.equals("") ? new TaskTime(start) : null;
 
-        final TaskTime modelStart = start != "" ? new TaskTime(start) : null;
-
-        final TaskTime modelEnd = end != "" ? new TaskTime(end) : null;
+        final TaskTime modelEnd = !end.equals("") ? new TaskTime(end) : null;
 
         // final Set<Tag> modelTags = new HashSet<>(taskTags);
 

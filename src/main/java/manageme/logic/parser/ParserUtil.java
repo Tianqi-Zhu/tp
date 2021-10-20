@@ -196,12 +196,12 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code TaskModule} is invalid.
      */
-    public static TaskModule parseTaskModule(String taskModule) {
+    public static TaskModule parseTaskModule(String taskModule) throws ParseException {
         requireNonNull(taskModule);
         String trimmedM = taskModule.trim();
-        //        if (!TaskModule.isValidModule(trimmedM)) {
-        //            throw new ParseException(TaskModule.MESSAGE_CONSTRAINTS);
-        //        }
+        if (!TaskModule.isValidModule(trimmedM)) {
+            throw new ParseException(TaskModule.MESSAGE_CONSTRAINTS);
+        }
         return new TaskModule(trimmedM);
     }
 
@@ -211,10 +211,13 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code TaskTime} is invalid.
      */
-    public static TaskTime parseDateTime(String dateTime) {
+    public static TaskTime parseDateTime(String dateTime) throws ParseException {
         requireNonNull(dateTime);
         String trimmedDateTime = dateTime.trim();
-        return trimmedDateTime.equals("") ? new TaskTime() : new TaskTime(trimmedDateTime);
+        if (!TaskTime.isValidTaskTime(trimmedDateTime)) {
+            throw new ParseException(TaskTime.MESSAGE_CONSTRAINTS);
+        }
+        return new TaskTime(trimmedDateTime);
     }
 
     /**

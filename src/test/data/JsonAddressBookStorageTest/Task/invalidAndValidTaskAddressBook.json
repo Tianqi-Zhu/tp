@@ -3,10 +3,10 @@
   "modules": [],
   "tasks": [
     {
-      "module": "",
+      "module": "@@",
       "start": "2021-10-05T11:50",
       "end": "2021-10-05T14:00",
-      "taskName": "^^ Eat with friends",
+      "taskName": " ",
       "taskDescription": "At NUS UTown"
     }, {
       "module": "",

@@ -11,7 +11,7 @@ import manageme.testutil.Assert;
 import manageme.testutil.TypicalTasks;
 
 public class JsonAdaptedTaskTest {
-    private static final String INVALID_NAME = "@ Eating with friends";
+    private static final String INVALID_NAME = " ";
     //private static final String INVALID_DESCRIPTION = " ";
     //private static final String INVALID_MODULE = "example.com";
     private static final String INVALID_START = "10-10-2021";

@@ -40,7 +40,7 @@ public class ParserUtilTest {
 
     private static final String WHITESPACE = " \t\r\n";
 
-    private static final String INVALID_TASKNAME = "e@t";
+    private static final String INVALID_TASKNAME = "";
 
     private static final String VALID_TASKNAME = "Do work";
     private static final String VALID_TASKDESCRIPTION = "immediately";
@@ -212,7 +212,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseTaskName_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseTaskName(INVALID_NAME));
+        assertThrows(ParseException.class, () -> ParserUtil.parseTaskName(INVALID_TASKNAME));
     }
 
     @Test

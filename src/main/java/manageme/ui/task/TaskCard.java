@@ -49,8 +49,8 @@ public class TaskCard extends UiPart<Region> {
         name.setText(task.getName().value);
         description.setText(task.getDescription().value);
         module.setText(task.getTaskModule().value);
-        startTime.setText(task.getStart().isEmpty() ? "" : "Start Time: " + task.getStart().value);
-        endTime.setText(task.getEnd().isEmpty() ? "" : "End Time: " + task.getEnd().value);
+        startTime.setText(task.getStart().isEmpty() ? "" : "Start Time: " + task.getStart().toDisplayString());
+        endTime.setText(task.getEnd().isEmpty() ? "" : "End Time: " + task.getEnd().toDisplayString());
     }
 
     @Override

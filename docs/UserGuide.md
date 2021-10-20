@@ -17,6 +17,8 @@ ManageMe is a **desktop app for time management and resource organisation, optim
         2. Read a Module: `readMod`
         3. Update a Module's Details: `editMod`
         4. Delete a Module: `deleteMod`
+        5. Find a Module by keyword: `findMod`
+        6. List all Modules: `listMod`
     3. Calendar
     4. Others
         1. Get help: `help`
@@ -125,7 +127,7 @@ Format: `editMod INDEX [n/NAME] [l/LINK]`
 
 Example: `editMod 2 n/CS2103T l/https://...`
 
-#### Deleting a module: `deleteMod`
+#### Delete a module: `deleteMod`
 Deletes the specified mod from the mod list.
 
 Format: `deleteMod INDEX`
@@ -133,7 +135,26 @@ Format: `deleteMod INDEX`
 * The index refers to the index number shown in the displayed module list
 * The index **must be a positive integer** 1, 2, 3, ...
 
-Examples: `deleteMod 2` deletes module No.2 from the list.
+Example: `deleteMod 2` deletes module No.2 from the list.
+
+#### Find a module by keyword: `findMod`
+Finds modules whose names contain any of the given keywords.
+
+Format: `findMod KEYWORD [MORE_KEYWORDS]`
+
+* The search is case-insensitive. e.g hans will match Hans
+* The order of the keywords does not matter. e.g. Hans Bo will match Bo Hans
+* Only the name is searched.
+* Only full words will be matched e.g. Han will not match Hans
+* Modules matching at least one keyword will be returned (i.e. OR search).
+
+Example: `findMod computer` returns `Computer Organization` and `Computer Architecture`.
+
+#### List all modules : `listMod`
+Display the full list of modules. This command is used to return to the full list
+of modules after searching for specific modules.
+
+Format: `listMod`
 
 ### CALENDAR:
 
@@ -171,5 +192,7 @@ Action | Format, Examples
 **ReadModule** | `readMod INDEX`<br>e.g., `readMod 2`
 **EditModule** | `editMod INDEX [n/NAME] [l/LINK]`<br>e.g., `editMod 2 n/CS2103T l/https://...`
 **DeleteModule** | `deleteMod INDEX`<br>e.g., `deleteMod 2`
+**FindModule** | `findMod KEYWORD [MORE_KEYWORDS]`<br>e.g., `findMod computer`
+**ListModule** | `listMod`
 **Help** | `help`
 **Exit** | `exit`

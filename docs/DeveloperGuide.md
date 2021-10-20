@@ -389,8 +389,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 1a. User enters an invalid module index<br>
     * 1a1. System shows error in reading index.
       Use case resumes from step 1.
-* 1b. System detects an error in the entered data.
-    * 1a1. System shows error in reading index.
+* 1b. System detects format errors in the entered data.
+    * 1a1. System shows error in format.
       Use case resumes from step 1. <br><br>
 
 
@@ -408,6 +408,29 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 1a. User enters an invalid module index<br>
     * 1a1. System shows error in reading index.
       Use case resumes from step 1.
+
+
+**Use case: Find Module**
+
+**MSS:**
+
+1. User requests to search for specific modules by keyword.
+3. System updates the GUI to show a list of all modules whose name contains the keyword. <br>
+   Use case ends.
+
+**Extension:**
+
+* 1a. User does not enter a keyword. <br>
+    * 1a1. System shows invalid format error.
+      Use case resumes from step 1.
+
+**Use case: List all Modules**
+
+**MSS:**
+
+1. User requests to list all modules.
+3. System updates the GUI to show the full list of keywords. <br>
+   Use case ends.
 
 
 ### Non-Functional Requirements

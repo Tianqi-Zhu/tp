@@ -1,6 +1,7 @@
 package manageme.model.task;
 
 import static java.util.Objects.requireNonNull;
+import static manageme.commons.util.AppUtil.checkArgument;
 
 public class TaskDescription {
     public static final String MESSAGE_CONSTRAINTS = "Description can take any values, and it should not be"
@@ -20,7 +21,7 @@ public class TaskDescription {
      */
     public TaskDescription(String taskDescription) {
         requireNonNull(taskDescription);
-        //checkArgument(isValidDescription(taskDescription), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidDescription(taskDescription), MESSAGE_CONSTRAINTS);
         this.value = taskDescription;
     }
 
