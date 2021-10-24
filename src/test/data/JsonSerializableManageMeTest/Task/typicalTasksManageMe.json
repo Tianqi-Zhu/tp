@@ -3,6 +3,7 @@
   "modules": [ ],
   "tasks": [
     {
+      "isDone": "no",
       "module": "",
       "start": "2021-10-05T11:50",
       "end": "2021-10-05T14:00",
@@ -10,6 +11,7 @@
       "taskDescription": "At NUS UTown"
     },
     {
+      "isDone": "no",
       "module": "CS2100",
       "start": "2021-10-07T23:59",
       "end": "2021-10-14T23:59",

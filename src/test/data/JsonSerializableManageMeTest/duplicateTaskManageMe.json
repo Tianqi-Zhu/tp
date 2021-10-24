@@ -2,12 +2,14 @@
   "persons" : [ ],
   "modules": [ ],
   "tasks": [ {
+    "isDone" :"no",
     "module" : "",
     "start" : "2021-10-05T11:50",
     "end" : "2021-10-05T14:00",
     "taskName" : "Eat with friends",
     "taskDescription" : "At NUS UTown"
   }, {
+    "isDone" : "no",
     "module" : "",
     "start" : "2021-10-05T11:50",
     "end" : "2021-10-05T14:00",

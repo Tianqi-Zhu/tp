@@ -51,9 +51,9 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         return manageMeFilePath;
     }
 
-    public void setManageMeFilePath(Path addressBookFilePath) {
-        requireNonNull(addressBookFilePath);
-        this.manageMeFilePath = addressBookFilePath;
+    public void setManageMeFilePath(Path manageFilePath) {
+        requireNonNull(manageFilePath);
+        this.manageMeFilePath = manageFilePath;
     }
 
     @Override

@@ -108,7 +108,8 @@ public class EditTaskCommandParserTest {
 
         // description
         userInput = targetIndex.getOneBased() + TaskCommandTestUtil.DESCRIPTION_DESC_A;
-        descriptor = new EditTaskDescriptorBuilder().withDescription(TaskCommandTestUtil.VALID_DESCRIPTION_A).build();
+        descriptor =
+                new EditTaskDescriptorBuilder().withDescription(TaskCommandTestUtil.VALID_DESCRIPTION_A).build();
         expectedCommand = new EditTaskCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
@@ -142,8 +143,10 @@ public class EditTaskCommandParserTest {
 
         EditTaskCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withName(TaskCommandTestUtil
                         .VALID_NAME_B)
-                .withDescription(TaskCommandTestUtil.VALID_DESCRIPTION_B).withModule(TaskCommandTestUtil.VALID_MODULE_B)
-                .withStartDateTime(TaskCommandTestUtil.VALID_START_A).withEndDateTime(TaskCommandTestUtil.VALID_END_A)
+                .withDescription(TaskCommandTestUtil.VALID_DESCRIPTION_B)
+                .withModule(TaskCommandTestUtil.VALID_MODULE_B)
+                .withStartDateTime(TaskCommandTestUtil.VALID_START_A)
+                .withEndDateTime(TaskCommandTestUtil.VALID_END_A)
                 .build();
         EditTaskCommand expectedCommand = new EditTaskCommand(targetIndex, descriptor);
 
@@ -168,7 +171,7 @@ public class EditTaskCommandParserTest {
         descriptor =
                 new EditTaskDescriptorBuilder().withName(TaskCommandTestUtil.VALID_NAME_B).withDescription(
                                 TaskCommandTestUtil.VALID_DESCRIPTION_B)
-                .withModule(TaskCommandTestUtil.VALID_MODULE_B).build();
+                        .withModule(TaskCommandTestUtil.VALID_MODULE_B).build();
         expectedCommand = new EditTaskCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }

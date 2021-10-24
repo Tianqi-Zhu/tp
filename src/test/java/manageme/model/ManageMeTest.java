@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -181,6 +182,8 @@ public class ManageMeTest {
 
         private final ObservableList<Task> tasks = FXCollections.observableArrayList();
 
+        private final ArrayList<Task> modifiableTasks = new ArrayList<>();
+
         ManageMePersonStub(Collection<Person> persons) {
             this.persons.setAll(persons);
         }
@@ -199,6 +202,11 @@ public class ManageMeTest {
         public ObservableList<Task> getTaskList() {
             return tasks;
         }
+
+        @Override
+        public ArrayList<Task> getModifiableTaskList() {
+            return modifiableTasks;
+        }
     }
 
     /**
@@ -210,6 +218,8 @@ public class ManageMeTest {
         private final ObservableList<Module> modules = FXCollections.observableArrayList();
 
         private final ObservableList<Task> tasks = FXCollections.observableArrayList();
+
+        private final ArrayList<Task> modifiableTasks = new ArrayList<>();
 
         ManageMeModuleStub(Collection<Module> modules) {
             this.modules.setAll(modules);
@@ -229,6 +239,11 @@ public class ManageMeTest {
         public ObservableList<Task> getTaskList() {
             return tasks;
         }
+
+        @Override
+        public ArrayList<Task> getModifiableTaskList() {
+            return modifiableTasks;
+        }
     }
 
     /**
@@ -240,6 +255,9 @@ public class ManageMeTest {
         private final ObservableList<Module> modules = FXCollections.observableArrayList();
 
         private final ObservableList<Task> tasks = FXCollections.observableArrayList();
+
+        private final ArrayList<Task> modifiableTasks = new ArrayList<>();
+
         ManageMeTaskStub(Collection<Task> tasks) {
             this.tasks.setAll(tasks);
         }
@@ -257,6 +275,11 @@ public class ManageMeTest {
         @Override
         public ObservableList<Task> getTaskList() {
             return tasks;
+        }
+
+        @Override
+        public ArrayList<Task> getModifiableTaskList() {
+            return modifiableTasks;
         }
     }
 

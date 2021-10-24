@@ -1,6 +1,8 @@
 package manageme.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
+import static manageme.logic.commands.task.AddTaskCommand.MESSAGE_START_LATER_THAN_END;
+import static manageme.logic.commands.task.AddTaskCommand.MESSAGE_START_WITHOUT_END;
 import static manageme.model.Model.PREDICATE_SHOW_ALL_TASKS;
 
 import java.util.List;
@@ -67,6 +69,15 @@ public class EditTaskCommand extends Command {
 
         if (!taskToEdit.isSameTask(editedTask) && model.hasTask(editedTask)) {
             throw new CommandException(MESSAGE_DUPLICATE_TASK);
+        }
+
+        if (!editedTask.getStart().isEmpty() && editedTask.getEnd().isEmpty()) {
+            throw new CommandException(MESSAGE_START_WITHOUT_END);
+        }
+
+        if (!editedTask.getStart().isEmpty() && !editedTask.getEnd().isEmpty()
+                && editedTask.getStart().getTime().isAfter(editedTask.getEnd().getTime())) {
+            throw new CommandException(MESSAGE_START_LATER_THAN_END);
         }
 
         model.setTask(taskToEdit, editedTask);

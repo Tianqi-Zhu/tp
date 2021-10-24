@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import manageme.commons.core.GuiSettings;
 import manageme.commons.core.LogsCenter;
+import manageme.logic.commands.ArchiveCommand;
 import manageme.logic.commands.Command;
 import manageme.logic.commands.CommandResult;
 import manageme.logic.commands.exceptions.CommandException;
@@ -18,6 +19,7 @@ import manageme.model.module.Module;
 import manageme.model.person.Person;
 import manageme.model.task.Task;
 import manageme.storage.Storage;
+import manageme.time.Time;
 
 /**
  * The main LogicManager of the app.
@@ -28,14 +30,16 @@ public class LogicManager implements Logic {
 
     private final Model model;
     private final Storage storage;
+    private final Time time;
     private final ManageMeParser manageMeParser;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
      */
-    public LogicManager(Model model, Storage storage) {
+    public LogicManager(Model model, Storage storage, Time time) {
         this.model = model;
         this.storage = storage;
+        this.time = time;
         manageMeParser = new ManageMeParser();
     }
 
@@ -45,10 +49,16 @@ public class LogicManager implements Logic {
 
         CommandResult commandResult;
         Command command = manageMeParser.parseCommand(commandText);
+        if (command instanceof ArchiveCommand) {
+            ArchiveCommand archiveCommand = (ArchiveCommand) command;
+            archiveCommand.setStorage(storage);
+        }
         commandResult = command.execute(model);
 
         try {
+            time.updateTasks(model.getManageMe());
             storage.saveManageMe(model.getManageMe());
+
         } catch (IOException ioe) {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }

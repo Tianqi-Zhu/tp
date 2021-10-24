@@ -19,6 +19,7 @@ public class JsonAdaptedTaskTest {
 
     private static final String VALID_NAME = TypicalTasks.TASK_A.getName().toString();
     private static final String VALID_DESCRIPTION = TypicalTasks.TASK_A.getDescription().toString();
+    private static final String VALID_ISDONE = TypicalTasks.TASK_A.isDone().toString();
     private static final String VALID_MODULE = TypicalTasks.TASK_A.getTaskModule().toString();
     private static final String VALID_START = TypicalTasks.TASK_A.getStart().toString();
     private static final String VALID_END = TypicalTasks.TASK_A.getEnd().toString();
@@ -35,14 +36,16 @@ public class JsonAdaptedTaskTest {
     @Test
     public void toModelType_invalidName_throwsIllegalValueException() {
         JsonAdaptedTask task =
-                new JsonAdaptedTask(INVALID_NAME, VALID_DESCRIPTION, VALID_MODULE, VALID_START, VALID_END);
+                new JsonAdaptedTask(INVALID_NAME, VALID_DESCRIPTION, VALID_ISDONE, VALID_MODULE, VALID_START,
+                        VALID_END);
         String expectedMessage = TaskName.MESSAGE_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, task::toModelType);
     }
 
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
-        JsonAdaptedTask task = new JsonAdaptedTask(null, VALID_DESCRIPTION, VALID_MODULE, VALID_START, VALID_END);
+        JsonAdaptedTask task = new JsonAdaptedTask(null, VALID_DESCRIPTION, VALID_ISDONE, VALID_MODULE,
+                VALID_START, VALID_END);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, TaskName.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, task::toModelType);
     }

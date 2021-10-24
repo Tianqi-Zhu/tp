@@ -15,32 +15,33 @@
         <Scene>
             <stylesheets>
                 <URL value="@Fonts.css" />
-                <URL value="@DarkTheme.css" />
+                <URL value="@ManageMe.css" />
                 <URL value="@Extensions.css" />
             </stylesheets>
 
             <VBox>
-            <Label fx:id="name" text="\$name">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding></Label>
-                  <VBox fx:id="linkList" minHeight="-Infinity" minWidth="-Infinity" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
-                      <padding>
-                          <Insets bottom="10" left="10" right="10" top="10" />
-                      </padding>
-               <children>
-                  <Label text="Link:" />
-               </children>
-                  </VBox>
+                <Label fx:id="name" text="\$name">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </Label>
+                <VBox fx:id="linkList" minHeight="-Infinity" minWidth="-Infinity" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="10" left="10" right="10" top="10" />
+                    </padding>
+                    <children>
+                        <Label text="Link:" />
+                    </children>
+                </VBox>
 
-                  <VBox fx:id="taskList" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
-                      <padding>
-                          <Insets bottom="10" left="10" right="10" top="10" />
-                      </padding>
-               <children>
-                  <Label text="Task:" />
-               </children>
-                  </VBox>
+                <VBox fx:id="taskList" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="10" left="10" right="10" top="10" />
+                    </padding>
+                    <children>
+                        <Label text="Task:" />
+                    </children>
+                </VBox>
             </VBox>
         </Scene>
     </scene>

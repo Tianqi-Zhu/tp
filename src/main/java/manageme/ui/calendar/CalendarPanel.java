@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -22,9 +23,11 @@ import manageme.ui.task.TaskListPanel;
 /**
  * Panel containing the list of persons.
  */
-public class CalendarListPanel extends UiPart<Region> {
-    private static final String FXML = "CalendarListPanel.fxml";
-    private final Logger logger = LogsCenter.getLogger(CalendarListPanel.class);
+public class CalendarPanel extends UiPart<Region> {
+    private static final String FXML = "CalendarPanel.fxml";
+    private static final String TITLE_TEMPLATE = "There %s %d %s today!";
+
+    private final Logger logger = LogsCenter.getLogger(CalendarPanel.class);
 
     private LocalDate currentDate;
     private LocalDate referenceDate;
@@ -39,20 +42,56 @@ public class CalendarListPanel extends UiPart<Region> {
     @FXML
     private StackPane readDayPanelPlaceholder;
 
+    @FXML
+    private Label readDayTitle;
+
     /**
      * Creates a {@code CalendarListPanel} with the given {@code ObservableList}.
      */
-    public CalendarListPanel(ObservableList<Task> taskList) {
+    public CalendarPanel(ObservableList<Task> taskList) {
         super(FXML);
         this.taskList = taskList;
         currentDate = LocalDate.now();
-        referenceDate = LocalDate.now();
-        fillCalendar();
-        showDay(currentDate);
+        fillCalendarPanel(currentDate);
+
         taskList.addListener((ListChangeListener<? super Task>) change -> {
-            clearCalendar();
             fillCalendar();
         });
+    }
+
+    /**
+     * Fills up the entire CalendarPanel with a specified date as reference.
+     *
+     * @param referenceDate the LocalDate object used as reference
+     */
+    private void fillCalendarPanel(LocalDate referenceDate) {
+        this.referenceDate = referenceDate;
+        fillCalendar();
+        fillReadDayPanel();
+    }
+
+    /**
+     * Fills up the calendar based on reference date.
+     */
+    private void fillCalendar() {
+        date.setText(currentDate.toString());
+        clearCalendar();
+        fillLayout();
+        fillDay();
+    }
+
+    /**
+     * Fills up the readDayPanel with the list of tasks on reference date.
+     */
+    private void fillReadDayPanel() {
+        int numOfTask = getTaskInCurrentDay(taskList, referenceDate).size();
+        readDayTitle.setText(numOfTask > 1
+                ? String.format(TITLE_TEMPLATE, "are", numOfTask, "tasks")
+                : String.format(TITLE_TEMPLATE, "is", numOfTask, "task"));
+
+        TaskListPanel taskListPanel = new TaskListPanel(getTaskInCurrentDay(taskList, referenceDate));
+        readDayPanelPlaceholder.getChildren().clear();
+        readDayPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
     }
 
     /**
@@ -63,27 +102,18 @@ public class CalendarListPanel extends UiPart<Region> {
     }
 
     /**
-     * Fills up the current month of the calendar.
-     */
-    private void fillCalendar() {
-        date.setText(currentDate.toString());
-        fillLayout();
-        fillDay();
-    }
-
-    /**
      * Fills up the layout of a calendar.
      */
     private void fillLayout() {
-        calendarPlaceholder.add(new Label(String.format("%s %s",
+        calendarPlaceholder.add(createLayoutLabel(String.format("%s %s",
                 referenceDate.getMonth().toString(), referenceDate.getYear())), 0, 0, 7, 1);
-        calendarPlaceholder.add(new Label("Su"), 0, 1, 1, 1);
-        calendarPlaceholder.add(new Label("Mo"), 1, 1, 1, 1);
-        calendarPlaceholder.add(new Label("Tu"), 2, 1, 1, 1);
-        calendarPlaceholder.add(new Label("We"), 3, 1, 1, 1);
-        calendarPlaceholder.add(new Label("Th"), 4, 1, 1, 1);
-        calendarPlaceholder.add(new Label("Fr"), 5, 1, 1, 1);
-        calendarPlaceholder.add(new Label("Sa"), 6, 1, 1, 1);
+        calendarPlaceholder.add(createLayoutLabel("Su"), 0, 1, 1, 1);
+        calendarPlaceholder.add(createLayoutLabel("Mo"), 1, 1, 1, 1);
+        calendarPlaceholder.add(createLayoutLabel("Tu"), 2, 1, 1, 1);
+        calendarPlaceholder.add(createLayoutLabel("We"), 3, 1, 1, 1);
+        calendarPlaceholder.add(createLayoutLabel("Th"), 4, 1, 1, 1);
+        calendarPlaceholder.add(createLayoutLabel("Fr"), 5, 1, 1, 1);
+        calendarPlaceholder.add(createLayoutLabel("Sa"), 6, 1, 1, 1);
     }
 
     /**
@@ -98,8 +128,11 @@ public class CalendarListPanel extends UiPart<Region> {
         while (currentDay <= numOfDayInMonth) {
             LocalDate date = LocalDate.of(referenceDate.getYear(), referenceDate.getMonth(), currentDay);
 
-            calendarPlaceholder.add(new DayCard(getTaskInCurrentDay(taskList, date), date).getRoot(),
-                    column, row, 1, 1);
+            DayCard dayCard = date.equals(referenceDate)
+                    ? new DayCard(getTaskInCurrentDay(taskList, date), date, true)
+                    : new DayCard(getTaskInCurrentDay(taskList, date), date, false);
+
+            calendarPlaceholder.add(dayCard.getRoot(), column, row, 1, 1);
 
             column++;
             if (column > 6) {
@@ -114,11 +147,23 @@ public class CalendarListPanel extends UiPart<Region> {
      * Returns the list of tasks happening on specified date from an original list of tasks.
      *
      * @param taskList the original list of tasks.
-     * @param currentDay the specified date.
+     * @param current the specified date.
      * @return the filtered task list
      */
-    private ObservableList<Task> getTaskInCurrentDay(ObservableList<Task> taskList, LocalDate currentDay) {
-        return taskList.filtered((task -> task.getSpan().anyMatch(dates -> dates.equals(currentDay))));
+    private ObservableList<Task> getTaskInCurrentDay(ObservableList<Task> taskList, LocalDate current) {
+        return taskList.filtered((task -> task.getSpan().anyMatch(dates -> dates.equals(current))));
+    }
+
+    /**
+     * Sets the style for layout of calendar.
+     *
+     * @param str text for the label
+     * @return the styled label
+     */
+    private Label createLayoutLabel(String str) {
+        Label result = new Label(str);
+        result.setPadding(new Insets(5, 5, 5, 5));
+        return result;
     }
 
     /**
@@ -164,7 +209,7 @@ public class CalendarListPanel extends UiPart<Region> {
      *
      * @param feedbackToSystem system input
      */
-    public void parseCommand(String feedbackToSystem) {
+    public void executeCommand(String feedbackToSystem) {
         String[] feedback = feedbackToSystem.split(" ");
         switch (feedback[0]) {
         case NextMonthCommand.COMMAND_WORD:
@@ -177,7 +222,7 @@ public class CalendarListPanel extends UiPart<Region> {
 
         case ReadDayCommand.COMMAND_WORD:
             LocalDate date = LocalDate.parse(feedback[1]);
-            showDay(date);
+            fillCalendarPanel(date);
             break;
 
         default:
@@ -190,7 +235,6 @@ public class CalendarListPanel extends UiPart<Region> {
      */
     private void showNextMonth() {
         referenceDate = referenceDate.plusMonths(1);
-        clearCalendar();
         fillCalendar();
     }
 
@@ -199,17 +243,6 @@ public class CalendarListPanel extends UiPart<Region> {
      */
     private void showPreviousMonth() {
         referenceDate = referenceDate.minusMonths(1);
-        clearCalendar();
         fillCalendar();
-    }
-
-    /**
-     * Displays the list of tasks on the specified date.
-     *
-     * @param date the specified date.
-     */
-    private void showDay(LocalDate date) {
-        TaskListPanel taskListPanel = new TaskListPanel(getTaskInCurrentDay(taskList, date));
-        readDayPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
     }
 }

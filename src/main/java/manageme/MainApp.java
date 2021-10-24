@@ -28,6 +28,8 @@ import manageme.storage.ManageMeStorage;
 import manageme.storage.Storage;
 import manageme.storage.StorageManager;
 import manageme.storage.UserPrefsStorage;
+import manageme.time.Time;
+import manageme.time.TimeManager;
 import manageme.ui.Ui;
 import manageme.ui.UiManager;
 
@@ -44,6 +46,7 @@ public class MainApp extends Application {
     protected Logic logic;
     protected Storage storage;
     protected Model model;
+    protected Time time;
     protected Config config;
 
     @Override
@@ -62,9 +65,12 @@ public class MainApp extends Application {
 
         model = initModelManager(storage, userPrefs);
 
-        logic = new LogicManager(model, storage);
+        time = new TimeManager(model.getManageMe());
+
+        logic = new LogicManager(model, storage, time);
 
         ui = new UiManager(logic);
+
     }
 
     /**
@@ -168,12 +174,14 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         logger.info("Starting AddressBook " + MainApp.VERSION);
         ui.start(primaryStage);
+        time.startTime();
     }
 
     @Override
     public void stop() {
         logger.info("============================ [ Stopping Address Book ] =============================");
         try {
+            time = null; // Remove references to time to allow it to go to garbage collector
             storage.saveUserPrefs(model.getUserPrefs());
         } catch (IOException e) {
             logger.severe("Failed to save preferences " + StringUtil.getDetails(e));

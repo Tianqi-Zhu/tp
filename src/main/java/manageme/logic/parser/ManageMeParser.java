@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import manageme.commons.core.Messages;
 import manageme.logic.commands.AddCommand;
+import manageme.logic.commands.ArchiveCommand;
 import manageme.logic.commands.ClearCommand;
 import manageme.logic.commands.Command;
 import manageme.logic.commands.DeleteCommand;
@@ -23,9 +24,12 @@ import manageme.logic.commands.module.FindModuleCommand;
 import manageme.logic.commands.module.ListModuleCommand;
 import manageme.logic.commands.module.ReadModuleCommand;
 import manageme.logic.commands.task.AddTaskCommand;
+import manageme.logic.commands.task.DeleteDoneTaskCommand;
 import manageme.logic.commands.task.DeleteTaskCommand;
 import manageme.logic.commands.task.EditTaskCommand;
 import manageme.logic.commands.task.FindTaskCommand;
+import manageme.logic.commands.task.ListTaskCommand;
+import manageme.logic.commands.task.MarkTaskCommand;
 import manageme.logic.parser.calendar.ReadDayCommandParser;
 import manageme.logic.parser.exceptions.ParseException;
 import manageme.logic.parser.module.AddModuleCommandParser;
@@ -37,6 +41,7 @@ import manageme.logic.parser.task.AddTaskCommandParser;
 import manageme.logic.parser.task.DeleteTaskCommandParser;
 import manageme.logic.parser.task.EditTaskCommandParser;
 import manageme.logic.parser.task.FindTaskCommandParser;
+import manageme.logic.parser.task.MarkTaskCommandParser;
 
 /**
  * Parses user input.
@@ -101,6 +106,15 @@ public class ManageMeParser {
         case FindTaskCommand.COMMAND_WORD:
             return new FindTaskCommandParser().parse(arguments);
 
+        case DeleteDoneTaskCommand.COMMAND_WORD:
+            return new DeleteDoneTaskCommand();
+
+        case ListTaskCommand.COMMAND_WORD:
+            return new ListTaskCommand();
+
+        case MarkTaskCommand.COMMAND_WORD:
+            return new MarkTaskCommandParser().parse(arguments);
+
         case AddModuleCommand.COMMAND_WORD:
             return new AddModuleCommandParser().parse(arguments);
 
@@ -127,6 +141,9 @@ public class ManageMeParser {
 
         case ReadDayCommand.COMMAND_WORD:
             return new ReadDayCommandParser().parse(arguments);
+
+        case ArchiveCommand.COMMAND_WORD:
+            return new ArchiveCommand();
 
         default:
             throw new ParseException(Messages.MESSAGE_UNKNOWN_COMMAND);

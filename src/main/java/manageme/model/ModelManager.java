@@ -3,6 +3,7 @@ package manageme.model;
 import static java.util.Objects.requireNonNull;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -28,6 +29,7 @@ public class ModelManager implements Model {
     private final FilteredList<Module> readModule;
     private final FilteredList<Task> filteredTasks;
     private final FilteredList<Task> unfilteredTasks;
+    private final ArrayList<Task> modifiableUnfilteredTasks;
 
     /**
      * Initializes a ModelManager with the given manageMe and userPrefs.
@@ -45,6 +47,9 @@ public class ModelManager implements Model {
         readModule = new FilteredList<>(this.manageMe.getModuleList());
         filteredTasks = new FilteredList<>(this.manageMe.getTaskList());
         unfilteredTasks = new FilteredList<>(this.manageMe.getTaskList());
+
+        // Time Manager use
+        modifiableUnfilteredTasks = new ArrayList<Task>(this.manageMe.getModifiableTaskList());
     }
 
     public ModelManager() {
@@ -169,6 +174,8 @@ public class ModelManager implements Model {
 
         manageMe.setTask(target, editedTask);
     }
+
+
 
     //=========== Filtered Person List Accessors =============================================================
 

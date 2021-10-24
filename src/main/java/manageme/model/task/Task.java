@@ -1,6 +1,7 @@
 package manageme.model.task;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -11,8 +12,12 @@ import manageme.commons.util.CollectionUtil;
  * Guarantees: details are present and not TaskTime.empty(), field values are validated, immutable.
  */
 public class Task {
+    public static final String MESSAGE_START_WITHOUT_END =
+            "A task with a start datetime MUST also have an end datetime";
+
     private final TaskName name;
     private final TaskDescription description;
+    private TaskIsDone isDone;
 
     //Optional: TaskModule that the task may be linked to. Can only be linked to max 1 module.
     private final TaskModule module;
@@ -22,66 +27,17 @@ public class Task {
     private final TaskTime end;
 
     /**
-     * Basic Task with only name and description, other attributes are initialized to TaskTime.empty().
+     * Task with a start and end date(Event). Includes module.
      * Every field must be present and not TaskTime.empty().
      */
-    public Task(TaskName name, TaskDescription description) {
-        CollectionUtil.requireAllNonNull(name, description);
+    public Task(TaskName name, TaskDescription description, TaskModule module, TaskTime start,
+                TaskTime end) {
+        CollectionUtil.requireAllNonNull(name, description, module, start, end);
+        //checkArgument(checkStartHasEnd(start, end), MESSAGE_START_WITHOUT_END);
         this.name = name;
         this.description = description;
-        this.module = TaskModule.empty();
-        this.start = TaskTime.empty();
-        this.end = TaskTime.empty();
-    }
-
-    /**
-     * Basic Task with an associated module.
-     * Every field must be present and not TaskTime.empty().
-     */
-    public Task(TaskName name, TaskDescription description, TaskModule module) {
-        CollectionUtil.requireAllNonNull(name, description, module);
-        this.name = name;
-        this.description = description;
+        this.isDone = new TaskIsDone(false);
         this.module = module;
-        this.start = TaskTime.empty();
-        this.end = TaskTime.empty();
-    }
-
-    /**
-     * Task with an end date(Deadline). No modules.
-     * Every field must be present and not TaskTime.empty().
-     */
-    public Task(TaskName name, TaskDescription description, TaskTime end) {
-        CollectionUtil.requireAllNonNull(name, description, end);
-        this.name = name;
-        this.description = description;
-        this.module = TaskModule.empty();
-        this.start = TaskTime.empty();
-        this.end = end;
-    }
-
-    /**
-     * Task with an end date(Deadline). Includes module.
-     * Every field must be present and not TaskTime.empty().
-     */
-    public Task(TaskName name, TaskDescription description, TaskModule module, TaskTime end) {
-        CollectionUtil.requireAllNonNull(name, description, module, end);
-        this.name = name;
-        this.description = description;
-        this.module = module;
-        this.start = TaskTime.empty();
-        this.end = end;
-    }
-
-    /**
-     * Task with a start and end date(Event). No module.
-     * Every field must be present and not TaskTime.empty().
-     */
-    public Task(TaskName name, TaskDescription description, TaskTime start, TaskTime end) {
-        CollectionUtil.requireAllNonNull(name, description, start, end);
-        this.name = name;
-        this.description = description;
-        this.module = TaskModule.empty();
         this.start = start;
         this.end = end;
     }
@@ -90,11 +46,13 @@ public class Task {
      * Task with a start and end date(Event). Includes module.
      * Every field must be present and not TaskTime.empty().
      */
-    public Task(TaskName name, TaskDescription description, TaskModule module, TaskTime start,
+    public Task(TaskName name, TaskDescription description, TaskIsDone isDone, TaskModule module, TaskTime start,
                 TaskTime end) {
         CollectionUtil.requireAllNonNull(name, description, module, start, end);
+        //checkArgument(checkStartHasEnd(start, end), MESSAGE_START_WITHOUT_END);
         this.name = name;
         this.description = description;
+        this.isDone = isDone;
         this.module = module;
         this.start = start;
         this.end = end;
@@ -120,6 +78,21 @@ public class Task {
         return end;
     }
 
+    public TaskIsDone isDone() {
+        return isDone;
+    }
+
+    /**
+     * Checks that if a start TaskTime is present, then an end TaskTime is also present.
+     * @param start TaskTime
+     * @param end TaskTime
+     * @return true if start/end is fine, false otherwise
+     */
+    public boolean checkStartHasEnd(TaskTime start, TaskTime end) {
+        return !(!start.isEmpty() && end.isEmpty());
+
+    }
+
     /**
      * Returns the dates that this {@code Task} object spans over.
      *
@@ -132,6 +105,18 @@ public class Task {
             return end.getTime().toLocalDate().datesUntil(end.getTime().plusDays(1).toLocalDate());
         } else {
             return Stream.empty();
+        }
+    }
+
+    public LocalDateTime getFirstOccurrence() {
+        if (start.isEmpty() && end.isEmpty()) {
+            // Should not happen
+            System.out.println("getFirstOccurrence");
+            return null;
+        } else if (start.isEmpty()) {
+            return end.getTime();
+        } else {
+            return start.getTime();
         }
     }
 
@@ -165,6 +150,7 @@ public class Task {
         Task otherTask = (Task) other;
         return otherTask.getName().equals(getName())
                 && otherTask.getDescription().equals(getDescription())
+                && otherTask.isDone().equals(isDone())
                 && otherTask.getTaskModule().equals(getTaskModule())
                 && otherTask.getStart().equals(getStart())
                 && otherTask.getEnd().equals(getEnd());
@@ -173,15 +159,18 @@ public class Task {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, description, module, start, end);
+        return Objects.hash(name, description, isDone, module, start, end);
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(getName())
+        builder.append("Name: ")
+                .append(getName())
                 .append("; Description: ")
                 .append(getDescription())
+                .append("; Done: ")
+                .append(isDone())
                 .append("; TaskModule: ")
                 .append(getTaskModule())
                 .append("; Start: ")

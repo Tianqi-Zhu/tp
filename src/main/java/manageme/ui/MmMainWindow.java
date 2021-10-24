@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
@@ -17,7 +18,7 @@ import manageme.logic.Logic;
 import manageme.logic.commands.CommandResult;
 import manageme.logic.commands.exceptions.CommandException;
 import manageme.logic.parser.exceptions.ParseException;
-import manageme.ui.calendar.CalendarListPanel;
+import manageme.ui.calendar.CalendarPanel;
 import manageme.ui.module.ModuleListPanel;
 import manageme.ui.module.ModuleWindow;
 import manageme.ui.task.TaskListPanel;
@@ -38,7 +39,7 @@ public class MmMainWindow extends UiPart<Stage> {
     // Independent Ui parts residing in this Ui container
     private ModuleListPanel moduleListPanel;
     private TaskListPanel taskListPanel;
-    private CalendarListPanel calendarListPanel;
+    private CalendarPanel calendarPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
     private ModuleWindow moduleWindow;
@@ -59,10 +60,16 @@ public class MmMainWindow extends UiPart<Stage> {
     private StackPane taskListPanelPlaceholder;
 
     @FXML
-    private StackPane calendarListPanelPlaceholder;
+    private StackPane calendarPanelPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
+
+    @FXML
+    private Label module;
+
+    @FXML
+    private Label task;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -131,8 +138,8 @@ public class MmMainWindow extends UiPart<Stage> {
         taskListPanel = new TaskListPanel(logic.getFilteredTaskList());
         taskListPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
 
-        calendarListPanel = new CalendarListPanel(logic.getUnfilteredTaskList());
-        calendarListPanelPlaceholder.getChildren().add(calendarListPanel.getRoot());
+        calendarPanel = new CalendarPanel(logic.getUnfilteredTaskList());
+        calendarPanelPlaceholder.getChildren().add(calendarPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -189,8 +196,14 @@ public class MmMainWindow extends UiPart<Stage> {
         moduleWindow.display(logic.getReadModuleList());
     }
 
+    /**
+     * Handles the various command on calendar.
+     * Passes control over to {@code CalendarListPanel} to execute the command.
+     *
+     * @param feedbackToSystem the respective commands to be executed
+     */
     private void handleCalendar(String feedbackToSystem) {
-        calendarListPanel.parseCommand(feedbackToSystem);
+        calendarPanel.executeCommand(feedbackToSystem);
     }
 
 

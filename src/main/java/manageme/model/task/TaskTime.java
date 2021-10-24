@@ -5,6 +5,7 @@ import static manageme.commons.util.AppUtil.checkArgument;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -34,7 +35,11 @@ public class TaskTime {
         checkArgument(isValidTaskTime(taskTime), MESSAGE_CONSTRAINTS);
         String trimmedT = taskTime.trim();
         this.value = trimmedT;
-        this.time = Optional.of(LocalDateTime.parse(trimmedT));
+        if (value.equals("")) {
+            this.time = Optional.empty();
+        } else {
+            this.time = Optional.of(LocalDateTime.parse(trimmedT));
+        }
     }
 
     /**
@@ -45,8 +50,23 @@ public class TaskTime {
         this.time = Optional.empty();
     }
 
+    /**
+     * Checks input date to see if it can be parsed and of correct format.
+     * @param test input date
+     * @return true or false if it is suitable.
+     */
     public static boolean isValidTaskTime(String test) {
-        return test.matches(VALIDATION_REGEX);
+        if (test.equals("")) {
+            return true;
+        }
+
+        boolean parsable = true;
+        try {
+            LocalDateTime temp = LocalDateTime.parse(test);
+        } catch (DateTimeParseException e) {
+            parsable = false;
+        }
+        return parsable && test.matches(VALIDATION_REGEX);
     }
 
 

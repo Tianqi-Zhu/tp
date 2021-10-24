@@ -14,7 +14,7 @@ public class TaskModuleTest {
     }
     @Test
     public void constructor_invalidTaskModule_throwsIllegalArgumentException() {
-        String invalidModule = "";
+        String invalidModule = "**";
         assertThrows(IllegalArgumentException.class, () -> new TaskModule(invalidModule));
     }
     @Test
@@ -23,8 +23,6 @@ public class TaskModuleTest {
         assertThrows(NullPointerException.class, () -> TaskModule.isValidModule(null));
 
         // invalid module
-        assertFalse(TaskModule.isValidModule("")); // empty string
-        assertFalse(TaskModule.isValidModule(" ")); // spaces only
         assertFalse(TaskModule.isValidModule("^")); // only non-alphanumeric characters
         assertFalse(TaskModule.isValidModule("hello*")); // contains non-alphanumeric characters
 

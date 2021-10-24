@@ -1,0 +1,130 @@
+* {
+    -menuBar-color: salmon;
+    -bg-color: lightpink;
+    -panel-color:mistyrose;
+    -calendar-color: floralwhite;
+    -cardPane-color: navajowhite;
+    -hasTask-color: mediumspringgreen;
+    -readDay-color: cornsilk;
+}
+
+#menuBar {
+    -fx-background-color: -menuBar-color;
+}
+
+#menuBar .menu-item {
+    -fx-background-color: -menuBar-color;
+}
+
+#menuBar .label{
+    -fx-font-size: 15px;
+}
+
+#moduleListPanelPlaceholder,
+#taskListPanelPlaceholder,
+#calendarPanelPlaceholder,
+#resultDisplay .content {
+    -fx-background-color: -panel-color;
+}
+
+#resultDisplayPlaceholder,
+#commandBoxPlaceholder,
+#calendar,
+#taskList,
+#moduleList {
+    -fx-background-color: -bg-color;
+}
+
+#commandTextField {
+    -fx-background-color: -panel-color;
+    -fx-font-size: 15px;
+    -fx-prompt-text-fill: #000000;
+}
+
+#resultDisplay {
+    -fx-font-size: 20px;
+}
+
+#module,
+#task {
+    -fx-background-color: -panel-color;
+    -fx-font-weight: bold;
+}
+
+#moduleListView,
+#cardPane,
+#taskListView,
+#taskListView .list-cell:empty,
+#moduleListView .list-cell:empty,
+#calendarPanelPlaceholder .cell .label,
+#dayCardPane {
+    -fx-background-color: transparent;
+}
+
+#calendarPlaceholder {
+    -fx-background-color: -calendar-color;
+}
+
+#date {
+    -fx-background-color: transparent;
+    -fx-font-weight: bold;
+}
+
+#readDayPanelPlaceholder,
+#readDayTitlePlaceholder {
+    -fx-background-color: -readDay-color;
+}
+
+.list-view .list-cell {
+    -fx-background-color: -cardPane-color;
+    -fx-background-insets: 5px;
+}
+
+.label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #000000;
+}
+
+#hasTask {
+    -fx-fill: -calendar-color;
+    -fx-stroke: -calendar-color;
+    -fx-smooth: true;
+}
+
+#hasTask:hasTask {
+    -fx-fill: -hasTask-color;
+    -fx-stroke: -hasTask-color;
+}
+
+#dayCardPane:selected {
+    -fx-background-color: tomato;
+    -fx-text-fill: #ffffff;
+}
+
+#dayCardPane:selected #hasTask {
+    -fx-fill: transparent;
+    -fx-stroke: transparent;
+}
+
+#dayCardPane:selected #hasTask:hasTask {
+    -fx-fill: -hasTask-color;
+    -fx-stroke: -hasTask-color;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow,
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-padding: 0;
+}
+
+#taskId,
+#taskName {
+    -fx-font-size: 15px;
+}
+
+#taskModule,
+#startTime,
+#endTime {
+    -fx-font-size: 10px;
+}

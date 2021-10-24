@@ -2,6 +2,8 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -9,9 +11,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.Scene?>
+<?import javafx.scene.text.Font?>
 <?import javafx.stage.Stage?>
-<fx:root minHeight="600.0" minWidth="1000.0" onCloseRequest="#handleExit" title="Address App" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+
+<fx:root minHeight="630.0" minWidth="1000.0" onCloseRequest="#handleExit" title="ManageMe" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
     <icons>
         <Image url="@/images/address_book_32.png" />
     </icons>
@@ -19,7 +22,7 @@
         <Scene>
             <stylesheets>
                 <URL value="@Fonts.css" />
-                <URL value="@DarkTheme.css" />
+                <URL value="@ManageMe.css" />
                 <URL value="@Extensions.css" />
             </stylesheets>
 
@@ -35,45 +38,59 @@
 
                 <HBox fx:id="contentPlaceholder" VBox.vgrow="ALWAYS">
                    <children>
-                      <VBox fx:id="moduleList" maxWidth="250.0" minWidth="-Infinity" prefWidth="150.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
+                      <VBox fx:id="moduleList" maxWidth="200.0" minWidth="-Infinity" prefWidth="200.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
                           <padding>
-                              <Insets bottom="10" left="10" right="10" top="10" />
+                              <Insets bottom="10.0" left="10.0" right="5.0" top="10.0" />
                           </padding>
                           <children>
+                              <Label fx:id="module" maxWidth="200.0" prefWidth="200.0" text="Module">
+                                  <font>
+                                      <Font size="20.0" />
+                                  </font>
+                                  <padding>
+                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                  </padding></Label>
                               <StackPane fx:id="moduleListPanelPlaceholder" VBox.vgrow="ALWAYS" />
                           </children>
                       </VBox>
 
-                      <VBox fx:id="taskList" layoutX="10.0" layoutY="10.0" maxWidth="250.0" minWidth="-Infinity" prefWidth="150.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
+                      <VBox fx:id="taskList" layoutX="10.0" layoutY="10.0" maxWidth="200.0" minWidth="-Infinity" prefWidth="200.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
                          <padding>
-                            <Insets bottom="10" left="10" right="10" top="10" />
+                            <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                          </padding>
                          <children>
+                             <Label fx:id="task" maxWidth="200.0" prefWidth="200.0" text="Task">
+                                 <font>
+                                     <Font size="20.0" />
+                                 </font>
+                                 <padding>
+                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding></Label>
                             <StackPane fx:id="taskListPanelPlaceholder" VBox.vgrow="ALWAYS" />
                          </children>
                       </VBox>
 
-                      <VBox fx:id="calendarList" layoutX="350.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="550.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
+                      <VBox fx:id="calendar" layoutX="350.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="550.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
                          <padding>
-                            <Insets bottom="10" left="10" right="10" top="10" />
+                            <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />
                          </padding>
                          <children>
-                            <StackPane fx:id="calendarListPanelPlaceholder" VBox.vgrow="ALWAYS" />
+                            <StackPane fx:id="calendarPanelPlaceholder" VBox.vgrow="ALWAYS" />
                          </children>
                       </VBox>
                    </children>
                 </HBox>
 
                 <StackPane fx:id="resultDisplayPlaceholder" maxHeight="100" minHeight="100" prefHeight="100" styleClass="pane-with-border" VBox.vgrow="NEVER">
-                    <padding>
-                        <Insets bottom="5" left="10" right="10" top="5" />
-                    </padding>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
                 </StackPane>
 
                 <StackPane fx:id="commandBoxPlaceholder" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" styleClass="pane-with-border" VBox.vgrow="NEVER">
-                    <padding>
-                        <Insets bottom="5" left="10" right="10" top="5" />
-                    </padding>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
                 </StackPane>
             </VBox>
         </Scene>

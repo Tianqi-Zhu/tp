@@ -17,6 +17,10 @@ public class EditTaskDescriptorBuilder {
         descriptor = new EditTaskCommand.EditTaskDescriptor();
     }
 
+    /**
+     * Creates a new descriptor based on the parameters.
+     * @param descriptor a descriptor passed into the function.
+     */
     public EditTaskDescriptorBuilder(EditTaskCommand.EditTaskDescriptor descriptor) {
         this.descriptor = new EditTaskCommand.EditTaskDescriptor(descriptor);
     }

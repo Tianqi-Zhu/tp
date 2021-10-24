@@ -2,6 +2,8 @@ package manageme.model.task;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class UniqueTaskList implements Iterable<Task> {
     private final ObservableList<Task> internalList = FXCollections.observableArrayList();
     private final ObservableList<Task> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
+    private ArrayList<Task> sortedList = new ArrayList<>();
 
     /**
      * Returns true if the list contains an equivalent task as the given argument.
@@ -47,6 +50,7 @@ public class UniqueTaskList implements Iterable<Task> {
             throw new DuplicateTaskException();
         }
         internalList.add(toAdd);
+        sortedList.add(toAdd);
     }
 
     /**
@@ -67,7 +71,13 @@ public class UniqueTaskList implements Iterable<Task> {
         }
 
         internalList.set(index, editedTask);
+        if (!sortedList.contains(target)) {
+            sortedList.add(editedTask);
+        } else {
+            sortedList.set(index, editedTask);
+        }
     }
+
 
     /**
      * Removes the equivalent task from the list.
@@ -78,11 +88,15 @@ public class UniqueTaskList implements Iterable<Task> {
         if (!internalList.remove(toRemove)) {
             throw new TaskNotFoundException();
         }
+
+        sortedList.remove(toRemove);
     }
 
     public void setTasks(UniqueTaskList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
+        sortedList = new ArrayList<>();
+        sortedList.addAll(replacement.internalList);
     }
 
     /**
@@ -96,6 +110,8 @@ public class UniqueTaskList implements Iterable<Task> {
         }
 
         internalList.setAll(tasks);
+        sortedList = new ArrayList<>();
+        sortedList.addAll(tasks);
     }
 
     /**
@@ -103,6 +119,14 @@ public class UniqueTaskList implements Iterable<Task> {
      */
     public ObservableList<Task> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
+    }
+
+    /**
+     * Returns the backing list as an modifiable {@code ObservableList}.
+     */
+    public ArrayList<Task> asModifiableObservableList() {
+        sortTasksByTime();
+        return sortedList;
     }
 
     @Override
@@ -134,5 +158,16 @@ public class UniqueTaskList implements Iterable<Task> {
             }
         }
         return true;
+    }
+
+    /**
+     * Sorts the tasks by their first occurrence, be it start or end date. This also removes tasks without any
+     * dates specified.
+     */
+    private void sortTasksByTime() {
+        Comparator<Task> comparator = Comparator.comparing(Task::getFirstOccurrence);
+        sortedList.removeIf(task -> task.getStart().value.equals("") && task.getEnd().value.equals(""));
+        sortedList.removeIf(task -> task.isDone().value);
+        sortedList.sort(comparator);
     }
 }

@@ -1,0 +1,71 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+Package Model <<Rectangle>>{
+Interface ReadOnlyManageMe <<Interface>>
+Interface ReadOnlyUserPrefs <<Interface>>
+Interface Model <<Interface>>
+Class ManageMe
+Class ReadOnlyManageMe
+Class Model
+Class ModelManager
+Class UserPrefs
+Class ReadOnlyUserPrefs
+
+
+Class UniqueTaskList
+Class Task
+Class TaskModule
+Class TaskName
+Class TaskDescription
+Class TaskTime
+
+Class UniqueModuleList
+Class Module
+Class ModuleName
+
+Class UniqueLinkList
+Class Link
+Class LinkName
+Class LinkAddress
+}
+
+Class HiddenOutside #FFFFFF
+HiddenOutside ..> Model
+
+ManageMe .up.|> ReadOnlyManageMe
+
+ModelManager .up.|> Model
+Model .right.> ReadOnlyUserPrefs
+Model .left.> ReadOnlyManageMe
+ModelManager -left-> "1" ManageMe
+ModelManager -right-> "1" UserPrefs
+UserPrefs .up.|> ReadOnlyUserPrefs
+
+ManageMe *--> "1" UniqueTaskList
+UniqueTaskList --> "~* all" Task
+Task *--> TaskName
+Task *--> TaskDescription
+Task *--> TaskModule
+Task *--> "2" TaskTime
+Task --> UniqueLinkList
+
+TaskName -[hidden]right-> TaskDescription
+TaskDescription -[hidden]right-> TaskModule
+
+ModelManager -->"~* filtered" Task
+
+ManageMe *--> "1" UniqueModuleList
+UniqueModuleList --> "~* all" Module
+Module *--> ModuleName
+Module --> UniqueLinkList
+UniqueLinkList -->"*" Link
+Link *--> LinkName
+Link *--> LinkAddress
+
+ModelManager -->"~* filtered" Module
+
+@enduml

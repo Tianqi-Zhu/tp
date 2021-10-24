@@ -5,16 +5,20 @@ skinparam arrowColor UI_COLOR_T4
 skinparam classBackgroundColor UI_COLOR
 
 package UI <<Rectangle>>{
-Interface Ui <<Interface>>
-Class "{abstract}\nUiPart" as UiPart
+Interface Ui <<interface>>
 Class UiManager
-Class MainWindow
+Class MmMainWindow
 Class HelpWindow
+Class ModuleWindow
 Class ResultDisplay
-Class PersonListPanel
-Class PersonCard
-Class StatusBarFooter
 Class CommandBox
+Class CalendarPanel
+Class ModuleListPanel
+Class TaskListPanel
+Class ModuleCard
+Class TaskCard
+Class DayCard
+Class "{abstract}\nUiPart" as UiPart
 }
 
 package Model <<Rectangle>> {
@@ -28,33 +32,42 @@ Class HiddenLogic #FFFFFF
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Ui
 
-UiManager .left.|> Ui
-UiManager -down-> "1" MainWindow
-MainWindow *-down->  "1" CommandBox
-MainWindow *-down-> "1" ResultDisplay
-MainWindow *-down-> "1" PersonListPanel
-MainWindow *-down-> "1" StatusBarFooter
-MainWindow --> "0..1" HelpWindow
-
-PersonListPanel -down-> "*" PersonCard
-
-MainWindow -left-|> UiPart
+UiManager .up.|> Ui
+UiManager -down-> "1" MmMainWindow
+MmMainWindow *-down->  "1" CommandBox
+MmMainWindow *-down-> "1" ResultDisplay
+MmMainWindow *-down-> "1" TaskListPanel
+MmMainWindow *-down-> "1" ModuleListPanel
+MmMainWindow *-down-> "1" CalendarPanel
+MmMainWindow --> "0..1" HelpWindow
+MmMainWindow --> "0..1" ModuleWindow
+CalendarPanel -down-> "28..31" DayCard
+ModuleListPanel -down--> "*" ModuleCard
+TaskListPanel -down---> "*" TaskCard
 
 ResultDisplay --|> UiPart
 CommandBox --|> UiPart
-PersonListPanel --|> UiPart
-PersonCard --|> UiPart
-StatusBarFooter --|> UiPart
+ModuleListPanel --|> UiPart
+ModuleCard --|> UiPart
+TaskListPanel --|> UiPart
+TaskCard --|> UiPart
 HelpWindow --|> UiPart
+ModuleWindow --|> UiPart
+CalendarPanel --|> UiPart
+MmMainWindow --|> UiPart
 
-PersonCard ..> Model
+ModuleCard ..> Model
+TaskCard ..> Model
 UiManager -right-> Logic
-MainWindow -left-> Logic
+MmMainWindow -left-> Logic
 
-PersonListPanel -[hidden]left- HelpWindow
-HelpWindow -[hidden]left- CommandBox
-CommandBox -[hidden]left- ResultDisplay
-ResultDisplay -[hidden]left- StatusBarFooter
+Class HiddenInside #FFFFFF
+HiddenInside -[hidden]right- ResultDisplay
 
-MainWindow -[hidden]-|> UiPart
+HelpWindow -[hidden]right- ModuleWindow
+ModuleWindow -[hidden]right- ResultDisplay
+ModuleListPanel -[hidden]right- TaskListPanel
+CommandBox -[hidden]right- CalendarPanel
+CalendarPanel -[hidden]right- ModuleListPanel
+ResultDisplay -[hidden]right- CommandBox
 @enduml

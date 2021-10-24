@@ -1,7 +1,5 @@
 package manageme.logic.parser.task;
 
-//Maybe can extend from the DeleteCommand in .parser?
-
 import static manageme.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import manageme.commons.core.index.Index;

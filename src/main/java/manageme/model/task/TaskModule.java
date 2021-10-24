@@ -8,12 +8,12 @@ import java.util.Optional;
 
 public class TaskModule {
     public static final String MESSAGE_CONSTRAINTS =
-            "Modules should only contain alphanumeric characters " + "and spaces, and it should not be blank";;
+            "Modules should only contain alphanumeric characters " + "and spaces";;
     /*
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
+    public static final String VALIDATION_REGEX = "\\p{Alnum}+";
 
     public final String value;
     public final Optional<String> moduleName;
@@ -42,7 +42,7 @@ public class TaskModule {
      * Returns true if a given string is a valid Module.
      */
     public static boolean isValidModule(String test) {
-        return test.matches(VALIDATION_REGEX);
+        return test.matches(VALIDATION_REGEX) || test.equals("");
     }
 
     @Override

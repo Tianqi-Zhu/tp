@@ -28,6 +28,7 @@ import manageme.storage.StorageManager;
 import manageme.testutil.Assert;
 import manageme.testutil.PersonBuilder;
 import manageme.testutil.TypicalPersons;
+import manageme.time.TimeManager;
 
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy exception");
@@ -44,7 +45,8 @@ public class LogicManagerTest {
                 new JsonManageMeStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
-        logic = new LogicManager(model, storage);
+        TimeManager time = new TimeManager(model.getManageMe());
+        logic = new LogicManager(model, storage, time);
     }
 
     @Test
@@ -73,7 +75,8 @@ public class LogicManagerTest {
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ioExceptionUserPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
-        logic = new LogicManager(model, storage);
+        TimeManager time = new TimeManager(model.getManageMe());
+        logic = new LogicManager(model, storage, time);
 
         // Execute add command
         String addCommand = AddCommand.COMMAND_WORD + CommandTestUtil.NAME_DESC_AMY + CommandTestUtil.PHONE_DESC_AMY
