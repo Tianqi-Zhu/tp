@@ -269,17 +269,16 @@ public class ModelManager implements Model {
 
     @Override
     public Link deleteModLink(LinkModule mod, Index i) {
+        System.out.println(unfilteredLinks.size());
         FilteredList<Link> modLinks = unfilteredLinks.filtered(link -> {
             Optional<String> linkModule = link.getLinkModule().moduleName;
             if (linkModule.isEmpty()) {
                 return false;
             }
-            return mod.equals(linkModule);
+            return mod.value.equals(linkModule.get());
         });
-
-        Link toReturn = modLinks.get(i.getZeroBased());
-        modLinks.remove(i.getZeroBased());
-
-        return toReturn;
+        Link toRemove = modLinks.get(i.getZeroBased());
+        manageMe.removeLink(toRemove);
+        return toRemove;
     }
 }
