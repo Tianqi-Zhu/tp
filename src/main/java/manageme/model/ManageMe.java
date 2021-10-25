@@ -5,9 +5,13 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import manageme.commons.core.index.Index;
 import manageme.model.link.Link;
+import manageme.model.link.LinkModule;
 import manageme.model.link.UniqueLinkList;
 import manageme.model.module.Module;
 import manageme.model.module.UniqueModuleList;
@@ -120,6 +124,7 @@ public class ManageMe implements ReadOnlyManageMe {
     public void removeLink(Link key) {
         links.remove(key);
     }
+
 
     public void openLink(Link key) {
         links.open(key);

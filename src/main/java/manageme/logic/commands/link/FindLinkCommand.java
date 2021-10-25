@@ -27,7 +27,7 @@ public class FindLinkCommand extends Command {
         requireNonNull(model);
         model.updateFilteredLinkList(predicate);
         return new CommandResult(
-                String.format(Messages.MESSAGE_MODULES_LISTED_OVERVIEW, model.getFilteredLinkList().size()));
+                String.format(Messages.MESSAGE_LINKS_LISTED_OVERVIEW, model.getFilteredLinkList().size()));
     }
 
     @Override

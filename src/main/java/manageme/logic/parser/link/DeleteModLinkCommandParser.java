@@ -12,10 +12,10 @@ import manageme.logic.commands.link.DeleteModLinkCommand;
 import manageme.logic.commands.link.EditLinkCommand;
 import manageme.logic.parser.ArgumentMultimap;
 import manageme.logic.parser.ArgumentTokenizer;
+import manageme.logic.parser.Parser;
 import manageme.logic.parser.ParserUtil;
 import manageme.logic.parser.exceptions.ParseException;
-import manageme.model.module.Module;
-import manageme.model.module.ModuleName;
+import manageme.model.link.LinkModule;
 
 public class DeleteModLinkCommandParser implements Parser<DeleteModLinkCommand> {
 
@@ -30,7 +30,7 @@ public class DeleteModLinkCommandParser implements Parser<DeleteModLinkCommand> 
                 ArgumentTokenizer.tokenize(args, PREFIX_MODULE, PREFIX_INDEX);
 
         Index index;
-        Module module;
+        LinkModule module;
 
         try {
             index = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_NAME).get());

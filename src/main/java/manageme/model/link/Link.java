@@ -12,6 +12,7 @@ public class Link {
     private final LinkName name;
     private final LinkAddress address;
     private final LinkModule module;
+    private final LinkTask task;
 
     /**
      * Basic Link with only name and address.
@@ -21,16 +22,18 @@ public class Link {
         this.name = name;
         this.address = address;
         this.module = LinkModule.empty();
+        this.task = LinkTask.empty();
     }
 
     /**
      * Basic Link associated with a module.
      */
-    public Link(LinkName name, LinkAddress address, LinkModule module) {
+    public Link(LinkName name, LinkAddress address, LinkModule module, LinkTask task) {
         CollectionUtil.requireAllNonNull(name, address);
         this.name = name;
         this.address = address;
         this.module = module;
+        this.task = task;
     }
 
     public LinkName getName() {
@@ -43,6 +46,10 @@ public class Link {
 
     public LinkModule getLinkModule() {
         return module;
+    }
+
+    public LinkTask getLinkTask() {
+        return task;
     }
 
     /**
@@ -84,7 +91,8 @@ public class Link {
         Link otherLink = (Link) other;
         return otherLink.getName().equals(getName())
                 && otherLink.getAddress().equals(getAddress())
-                && otherLink.getLinkModule().equals(getLinkModule());
+                && otherLink.getLinkModule().equals(getLinkModule())
+                && otherLink.getLinkTask().equals(getLinkTask());
     }
 
     @Override

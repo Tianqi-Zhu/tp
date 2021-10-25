@@ -3,6 +3,7 @@ package manageme.logic.parser.link;
 import static manageme.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static manageme.logic.parser.CliSyntax.PREFIX_MODULE;
 import static manageme.logic.parser.CliSyntax.PREFIX_NAME;
+import static manageme.logic.parser.CliSyntax.PREFIX_TASK;
 
 import java.util.stream.Stream;
 
@@ -18,6 +19,7 @@ import manageme.model.link.Link;
 import manageme.model.link.LinkAddress;
 import manageme.model.link.LinkModule;
 import manageme.model.link.LinkName;
+import manageme.model.link.LinkTask;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -31,7 +33,7 @@ public class AddLinkCommandParser implements Parser<AddLinkCommand> {
      */
     public AddLinkCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_ADDRESS,
-                PREFIX_MODULE);
+                PREFIX_MODULE, PREFIX_TASK);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS) || !argMultimap.getPreamble().isEmpty()) {
 
@@ -45,7 +47,11 @@ public class AddLinkCommandParser implements Parser<AddLinkCommand> {
                 ? ParserUtil.parseLinkModule(argMultimap.getValue(PREFIX_MODULE).get())
                 : LinkModule.empty();
 
-        Link link = new Link(name, address, module);
+        LinkTask task = argMultimap.getValue(PREFIX_TASK).isPresent()
+                ? ParserUtil.parseLinkTask(argMultimap.getValue(PREFIX_TASK).get())
+                : LinkTask.empty();
+
+        Link link = new Link(name, address, module, task);
 
         return new AddLinkCommand(link);
     }

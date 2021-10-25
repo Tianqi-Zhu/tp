@@ -1,11 +1,18 @@
 package manageme.ui.task;
 
+import java.util.Optional;
+
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import manageme.model.link.Link;
+import manageme.model.module.Module;
 import manageme.model.task.Task;
 import manageme.ui.UiPart;
+import manageme.ui.link.LinkCard;
 
 /**
  * An UI component that displays information of a {@code Task}.

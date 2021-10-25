@@ -14,6 +14,7 @@ import manageme.logic.parser.exceptions.ParseException;
 import manageme.model.link.LinkAddress;
 import manageme.model.link.LinkModule;
 import manageme.model.link.LinkName;
+import manageme.model.link.LinkTask;
 import manageme.model.module.ModuleName;
 
 import manageme.model.tag.Tag;
@@ -100,6 +101,21 @@ public class ParserUtil {
             throw new ParseException(LinkModule.MESSAGE_CONSTRAINTS);
         }
         return new LinkModule(trimmedM);
+    }
+
+    /**
+     * Parses a {@code String link module} into a {@code LinkModule}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code LinkModule} is invalid.
+     */
+    public static LinkTask parseLinkTask(String linkTask) throws ParseException {
+        requireNonNull(linkTask);
+        String trimmedT = linkTask.trim();
+        if (!LinkModule.isValidModule(trimmedT)) {
+            throw new ParseException(LinkTask.MESSAGE_CONSTRAINTS);
+        }
+        return new LinkTask(trimmedT);
     }
     
     /**

@@ -8,7 +8,7 @@ import manageme.logic.commands.CommandResult;
 import manageme.model.Model;
 
 public class ListLinkCommand extends Command {
-    public static final String COMMAND_WORD = "list";
+    public static final String COMMAND_WORD = "listLink";
 
     public static final String MESSAGE_SUCCESS = "Listed all links";
 

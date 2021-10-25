@@ -20,6 +20,8 @@ import manageme.model.link.Link;
 import manageme.model.link.LinkAddress;
 import manageme.model.link.LinkModule;
 import manageme.model.link.LinkName;
+import manageme.model.link.LinkTask;
+
 /**
  * Edits the details of an existing link in the address book.
  */
@@ -88,8 +90,9 @@ public class EditLinkCommand extends Command {
         LinkName updatedName = editLinkDescriptor.getName().orElse(linkToEdit.getName());
         LinkAddress updatedAddress = editLinkDescriptor.getAddress().orElse(linkToEdit.getAddress());
         LinkModule updatedModule = editLinkDescriptor.getLinkModule().orElse(linkToEdit.getLinkModule());
+        LinkTask updatedTask = editLinkDescriptor.getLinkTask().orElse(linkToEdit.getLinkTask());
 
-        return new Link(updatedName, updatedAddress, updatedModule);
+        return new Link(updatedName, updatedAddress, updatedModule, updatedTask);
     }
 
     @Override
@@ -118,6 +121,7 @@ public class EditLinkCommand extends Command {
         private LinkName name;
         private LinkAddress address;
         private LinkModule module;
+        private LinkTask task;
 
         public EditLinkDescriptor() {}
 
@@ -160,6 +164,14 @@ public class EditLinkCommand extends Command {
 
         public Optional<LinkModule> getLinkModule() {
             return Optional.ofNullable(module);
+        }
+
+        public void setTask(LinkTask task) {
+            this.task = task;
+        }
+
+        public Optional<LinkTask> getLinkTask() {
+            return Optional.ofNullable(task);
         }
 
         @Override

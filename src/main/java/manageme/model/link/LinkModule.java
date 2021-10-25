@@ -5,7 +5,6 @@ import static manageme.commons.util.AppUtil.checkArgument;
 
 import java.util.Optional;
 
-
 public class LinkModule {
     public static final String MESSAGE_CONSTRAINTS = "Modules should only contain alphanumeric characters and spaces";
     /*

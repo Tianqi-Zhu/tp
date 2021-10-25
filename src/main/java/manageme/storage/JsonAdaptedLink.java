@@ -8,6 +8,7 @@ import manageme.model.link.Link;
 import manageme.model.link.LinkAddress;
 import manageme.model.link.LinkModule;
 import manageme.model.link.LinkName;
+import manageme.model.link.LinkTask;
 
 /**
  * Jackson-friendly version of {@link Link}.
@@ -19,6 +20,7 @@ public class JsonAdaptedLink {
     private final String linkName;
     private final String address;
     private final String module;
+    private final String task;
 
 
     /**
@@ -26,10 +28,11 @@ public class JsonAdaptedLink {
      */
     @JsonCreator
     public JsonAdaptedLink(@JsonProperty("name") String linkName, @JsonProperty("address") String address,
-                           @JsonProperty("module") String module) {
+                           @JsonProperty("module") String module, @JsonProperty("task") String task) {
         this.linkName = linkName;
         this.address = address;
         this.module = module;
+        this.task = task;
     }
 
     /**
@@ -39,6 +42,7 @@ public class JsonAdaptedLink {
         this.linkName = source.getName().value;
         this.address = source.getAddress().value;
         this.module = source.getLinkModule().value;
+        this.task = source.getLinkTask().value;
     }
 
 
@@ -66,11 +70,17 @@ public class JsonAdaptedLink {
         final LinkAddress modelAddress = new LinkAddress(address);
 
         final LinkModule modelModule = !module.equals("") ? new LinkModule(module) : null;
+        final LinkTask modelTask = !task.equals("") ? new LinkTask(task) : null;
 
-        if (modelModule == null) {
-            return new Link(modelName, modelAddress);
-        } else {
-            return new Link(modelName, modelAddress, modelModule);
-        }
+//        if (modelModule == null) {
+//            if (modelTask == null) {
+//                return new Link(modelName, modelAddress);
+//            } else {
+//                return new Link()
+//            }
+//        } else {
+    //}
+        return new Link(modelName, modelAddress, modelModule, modelTask);
+
     }
 }

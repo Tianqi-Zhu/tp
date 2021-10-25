@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static manageme.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static manageme.logic.parser.CliSyntax.PREFIX_MODULE;
 import static manageme.logic.parser.CliSyntax.PREFIX_NAME;
+import static manageme.logic.parser.CliSyntax.PREFIX_TASK;
 
 import manageme.logic.commands.Command;
 import manageme.logic.commands.CommandResult;
@@ -22,11 +23,13 @@ public class AddLinkCommand extends Command {
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_ADDRESS + "LINK ADDRESS "
-            + PREFIX_MODULE + "ASSOCIATED_MODULE_NAME\n"
+            + "[Optional]" + PREFIX_MODULE + "ASSOCIATED_MODULE_NAME\n"
+            + "[Optional]" + PREFIX_TASK + "ASSOCIATED_TASK_NAME\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "Luminus "
             + PREFIX_ADDRESS + "https://luminus.nus.edu.sg/dashboard "
-            + PREFIX_MODULE + "CS2103T";
+            + PREFIX_MODULE + "CS2103T"
+            + PREFIX_TASK + "code";
 
     public static final String MESSAGE_SUCCESS = "New link added: %1$s";
     public static final String MESSAGE_DUPLICATE_LINK = "This link already exists in the address book";
