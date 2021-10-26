@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static manageme.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static manageme.logic.parser.CliSyntax.PREFIX_MODULE;
 import static manageme.logic.parser.CliSyntax.PREFIX_NAME;
+import static manageme.logic.parser.CliSyntax.PREFIX_TASK;
 
 import manageme.commons.core.Messages;
 import manageme.commons.core.index.Index;
@@ -27,7 +28,7 @@ public class EditLinkCommandParser implements Parser<EditLinkCommand> {
     public EditLinkCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_MODULE);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_MODULE, PREFIX_TASK);
 
         Index index;
 
@@ -47,6 +48,9 @@ public class EditLinkCommandParser implements Parser<EditLinkCommand> {
         }
         if (argMultimap.getValue(PREFIX_MODULE).isPresent()) {
             editLinkDescriptor.setModule(ParserUtil.parseLinkModule(argMultimap.getValue(PREFIX_MODULE).get()));
+        }
+        if (argMultimap.getValue(PREFIX_TASK).isPresent()) {
+            editLinkDescriptor.setTask(ParserUtil.parseLinkTask(argMultimap.getValue(PREFIX_TASK).get()));
         }
 
         if (!editLinkDescriptor.isAnyFieldEdited()) {

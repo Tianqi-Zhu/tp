@@ -22,7 +22,6 @@ public class JsonAdaptedLink {
     private final String module;
     private final String task;
 
-
     /**
      * Constructs a {@code JsonAdaptedLink} with the given person details.
      */
@@ -44,7 +43,6 @@ public class JsonAdaptedLink {
         this.module = source.getLinkModule().value;
         this.task = source.getLinkTask().value;
     }
-
 
     /**
      * Converts this Jackson-friendly adapted link object into the model's {@code Link} object.
@@ -69,18 +67,9 @@ public class JsonAdaptedLink {
         }
         final LinkAddress modelAddress = new LinkAddress(address);
 
-        final LinkModule modelModule = !module.equals("") ? new LinkModule(module) : null;
-        final LinkTask modelTask = !task.equals("") ? new LinkTask(task) : null;
+        final LinkModule modelModule = !module.equals("") ? new LinkModule(module) : new LinkModule();
+        final LinkTask modelTask = !task.equals("") ? new LinkTask(task) : new LinkTask();
 
-//        if (modelModule == null) {
-//            if (modelTask == null) {
-//                return new Link(modelName, modelAddress);
-//            } else {
-//                return new Link()
-//            }
-//        } else {
-    //}
         return new Link(modelName, modelAddress, modelModule, modelTask);
-
     }
 }

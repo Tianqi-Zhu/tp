@@ -133,6 +133,7 @@ public class EditLinkCommand extends Command {
             setName(toCopy.name);
             setAddress(toCopy.address);
             setModule(toCopy.module);
+            setTask(toCopy.task);
         }
 
         /**
@@ -191,7 +192,8 @@ public class EditLinkCommand extends Command {
 
             return getName().equals(e.getName())
                     && getAddress().equals(e.getAddress())
-                    && getLinkModule().equals(e.getLinkModule());
+                    && getLinkModule().equals(e.getLinkModule())
+                    && getLinkTask().equals(e.getLinkTask());
         }
     }
 }
