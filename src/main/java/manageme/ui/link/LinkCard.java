@@ -38,6 +38,8 @@ public class LinkCard extends UiPart<Region> {
     @FXML
     private Label linkModule;
     @FXML
+    private Label linkTask;
+    @FXML
     private Button copyButton;
 
     /**
@@ -50,6 +52,7 @@ public class LinkCard extends UiPart<Region> {
         linkName.setText(link.getName().value);
         linkAddress.setText(link.getAddress().value);
         linkModule.setText(link.getLinkModule().value);
+        linkTask.setText(link.getLinkTask().value);
     }
 
     @Override

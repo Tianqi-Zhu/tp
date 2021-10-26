@@ -26,7 +26,6 @@ public class DeleteModLinkCommand extends Command {
             + PREFIX_LINK + " 1";
 
     public static final String MESSAGE_DELETE_LINK_SUCCESS = "Deleted Link: %1$s";
-    public static final String MESSAGE_INVALID_INDEX = "Invalid index";
 
     private final LinkModule module;
     private final Index targetIndex;
@@ -49,7 +48,7 @@ public class DeleteModLinkCommand extends Command {
             Link linkDeleted = model.deleteModLink(module, targetIndex);
             return new CommandResult(String.format(MESSAGE_DELETE_LINK_SUCCESS, linkDeleted));
         } catch (RuntimeException e) {
-            throw new CommandException(MESSAGE_INVALID_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_LINK_DISPLAYED_INDEX);
         }
     }
 

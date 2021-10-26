@@ -5,12 +5,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<<<<<<< HEAD
-<VBox fx:id="cardPane" prefWidth="100.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
-=======
 
-<VBox fx:id="cardPane" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
->>>>>>> 785e076494ea707cccfc66ae26761543be13828f
+<VBox fx:id="cardPane" prefWidth="100.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
    <padding>
       <Insets bottom="5" left="15" right="5" top="5" />
    </padding>

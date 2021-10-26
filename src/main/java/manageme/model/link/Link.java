@@ -107,7 +107,9 @@ public class Link {
                 .append("; Address: ")
                 .append(getAddress())
                 .append("; LinkModule: ")
-                .append(getLinkModule());
+                .append(getLinkModule())
+                .append("; LinkTask: ")
+                .append(getLinkTask());
         return builder.toString();
     }
 }
